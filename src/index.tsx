@@ -5,14 +5,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ToDoList from './To-Do-List/ToDoList';
+import Weather from './Weather/Weather';
 
 render (
   <React.StrictMode>
     <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />}></Route>
-      <Route path="/todolist" element={<ToDoList />}></Route>
-    </Routes> 
+      <Routes>
+        <Route path="/" element={<App />}></Route>
+        <Route path="/todolist" element={<ToDoList />}></Route>
+        <Route path="/weather" element={<Weather />}></Route>
+      </Routes> 
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

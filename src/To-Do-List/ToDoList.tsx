@@ -1,13 +1,11 @@
 import React from 'react';
-import './styles.css';
+import './todo.css';
 
 export default class ToDoList extends React.Component<{}, { taskList: Array<React.ReactElement>, taskText: string, id: number }> {
-    listKeys = 1;
-
-    constructor(props: any) {
+    constructor(props: Object) {
         super(props);
-        this.state = { taskList: [], taskText: "", id: this.listKeys};
-        
+        this.state = { taskList: [], taskText: "", id: 1};
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleAddClick = this.handleAddClick.bind(this);
         this.handleRemoveClick = this.handleRemoveClick.bind(this);
@@ -21,10 +19,16 @@ export default class ToDoList extends React.Component<{}, { taskList: Array<Reac
     handleAddClick(event: React.MouseEvent) {
        let tasks = this.state.taskList;
        const newTask = <li key={this.state.id.toString()} id={this.state.id.toString()} onClick={this.handleListItemClick}>{this.state.taskText} <span className="close" onClick={this.handleRemoveClick} >x</span></li>;
-       const newId = this.state.id+1;
 
        tasks.push(newTask);
-       this.setState({taskList: tasks, taskText: "", id: newId});
+       // example of using callback to access state in handler setState call
+       this.setState((state) => {
+            return {
+                taskList: tasks, 
+                taskText: "", 
+                id: state.id+1
+             }
+        });
     }
 
     handleRemoveClick(event: React.MouseEvent) {
@@ -46,7 +50,7 @@ export default class ToDoList extends React.Component<{}, { taskList: Array<Reac
 
     render() {
         return (
-            <div >
+            <div id="todoApp">
                 <div id="MyDiv" className="header">
                     <h2>React To-Do List</h2>
                     <input type="text" value={this.state.taskText} onChange={this.handleInputChange} id="myInput" placeholder="Enter Task..." ></input>

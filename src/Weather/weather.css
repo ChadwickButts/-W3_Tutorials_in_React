@@ -1,0 +1,14 @@
+#weatherApp ul {
+    background-color: #676b70;
+    text-align: center;
+}
+
+#viewsUL {
+
+}
+
+#weatherApp li {
+    display: inline-block;
+    margin: 15px;
+    color: #61dafb;
+}

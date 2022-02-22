@@ -19,10 +19,13 @@ function App() {
           </a>
           
         </header>
-        <h4>Components</h4>
+        <h2>Components</h2>
           <ul id="componentList">
             <li>
-              <Link to="/todolist">To-Do List</Link>
+              <Link to="/todolist">W3 To-Do List</Link>
+            </li>
+            <li>
+              <Link to="/weather">Weather App</Link>
             </li>
           </ul>
       </div>
