@@ -1,14 +1,83 @@
-#weatherApp ul {
-    background-color: #676b70;
+#weatherApp {
+    background-color: #3b3d40;
+    color: #ffffff;
+}
+
+#weatherApp nav {
     text-align: center;
 }
 
-#viewsUL {
-
+#searchFieldContainer {
+    text-align: center;
+    height: 100px;
 }
 
-#weatherApp li {
+#searchField {
+    height: 35px;
+    width: 300px;
+    margin: 30px 0;
     display: inline-block;
-    margin: 15px;
-    color: #61dafb;
+    border-radius: 20px;
+    border-width: 0px;
+    background-color: #676b70;
+    color: #ffffff;
+    text-align: center;
+    font-size: 18px;
+}
+
+#searchBtn {
+    position: absolute;
+    top: 35px;
+    translate: -40px;
+    border-radius: 20px;
+    background-color: #676b70;
+    border: 0px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+#viewsUL {
+    margin: auto;
+    padding: 0;
+    background-color: #282c34;
+}
+
+#viewsUL li {
+    display: inline-block;
+    border-width: 0px 0px 2px 0px;
+    border-style: solid;
+    border-color: #282c34;
+}
+
+#viewsUL li button {
+    padding: 14px;
+    background-color: inherit;
+    border: 0px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+#viewsUL li:hover, #viewsUL li.active {
+    border-color: #ffffff;
+    cursor: pointer;
+    background-color: #676b70;
+}
+
+@media screen and (max-width: 700px) {
+    #searchField {
+        width: 250px;
+        margin: 30px 0;
+    }
+
+    #viewsUL {
+        margin: auto;
+        padding: 10px;
+        padding-bottom: 0;
+    }
+
+    #viewsUL li {
+        display: block;
+        padding: 10px;
+        margin: 0;
+    }
 }

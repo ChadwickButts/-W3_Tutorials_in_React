@@ -1,6 +1,12 @@
 import React from 'react';
+import SearchLocation from './SearchLocation';
 
-class WeatherNav extends React.Component<{ onViewChange: React.ChangeEventHandler<MouseEvent> }, {}> {
+type PropTypes = {
+    onViewChange: React.ChangeEventHandler<MouseEvent>, 
+    onSearchClick: (location: string) => void
+}
+
+class WeatherNav extends React.Component< PropTypes > {
     constructor(props) {
         super(props);
 
@@ -8,14 +14,23 @@ class WeatherNav extends React.Component<{ onViewChange: React.ChangeEventHandle
     }
 
     handleViewClick(event) {
+        let navElements = document.querySelectorAll("#viewsUL li");
+        navElements.forEach(elem => {
+            elem.classList.remove('active');
+        })
+
+        let parent = event.target.parentNode;
+        parent.classList.add('active');
+
         this.props.onViewChange(event)
     }
 
     render() {
        return (
             <nav>
+                <SearchLocation onSearchClick={this.props.onSearchClick} />
                 <ul id="viewsUL">
-                    <li>
+                    <li className="active">
                         <button type="button" id="today" onClick={this.handleViewClick}>Today</button> 
                     </li>
                     <li>
