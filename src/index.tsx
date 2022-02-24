@@ -2,10 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
-import App from './App';
+import App from './Components/App/App';
 import reportWebVitals from './reportWebVitals';
-import ToDoList from './To-Do-List/ToDoList';
-import Weather from './Weather/Weather';
+import ToDoList from './Components/To-Do-List/ToDoList';
+import Weather from './Components/Weather/Components/Weather';
 
 render (
   <React.StrictMode>

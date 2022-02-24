@@ -1,12 +1,8 @@
 import React from 'react';
 import SearchLocation from './SearchLocation';
+import { NavPropTypes } from '../Helpers/Types';
 
-type PropTypes = {
-    onViewChange: React.ChangeEventHandler<MouseEvent>, 
-    onSearchClick: (location: string) => void
-}
-
-class WeatherNav extends React.Component< PropTypes > {
+class WeatherNav extends React.Component< NavPropTypes > {
     constructor(props) {
         super(props);
 

@@ -1,10 +1,8 @@
 import React from 'react';
+import { SearchBarPropTypes } from '../Helpers/Types';
 
-type PropTypes = {
-    onSearchClick: (location: string) => void
-}
 
-class SearchLocation extends React.Component< PropTypes > {
+class SearchLocation extends React.Component< SearchBarPropTypes > {
     userInput:string = '';
 
     constructor(props) {

@@ -1,4 +1,4 @@
-const StateCodes = {
+export const StateCodes = {
     al: "Alabama",
     ak: "Alaska",
     as: "American Samoa",
@@ -58,6 +58,4 @@ const StateCodes = {
     wv: "West Virginia",
     wi: "Wisconsin",
     wy: "Wyoming"
-} 
-
-export default StateCodes;
+}
