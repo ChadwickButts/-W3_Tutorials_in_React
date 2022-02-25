@@ -9,6 +9,16 @@ export default class HourlyView extends React.Component< ViewProps,{}> {
     }
 
     render() {
-        return 'hourly';
+        let uiChange = this.props.weatherData?.hourly[0].weather[0].description;
+
+        if (this.props.weatherData === null) {
+            uiChange = 'no data';
+        }
+
+        return  (
+            <div>
+                <h3>Today it is: {uiChange}</h3>
+            </div>
+        );
     }
 }

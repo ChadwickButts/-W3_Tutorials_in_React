@@ -9,6 +9,16 @@ export default class DailyView extends React.Component<ViewProps,{}> {
     }
 
     render() {
-        return 'daily';
+        let uiChange = this.props.weatherData?.daily[0].weather[0].description;
+
+        if (this.props.weatherData === null) {
+            uiChange = 'no data';
+        }
+
+        return  (
+            <div>
+                <h3>Today it is: {uiChange}</h3>
+            </div>
+        );
     }
 }

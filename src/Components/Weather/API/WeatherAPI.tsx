@@ -26,7 +26,7 @@ const WeatherAPI = {
         return this.getGeoCoordinates(location).then((data: Array<GeoObject>) => { 
             let [city, state, country] = location.split(',');
             let index = data.findIndex((geo:GeoObject) => geo.name.toLowerCase() === city && geo.state === state && geo.country === country);
-            let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${data[index].lat}&lon=${data[index].lon}&exclude=&appid=${API_KEY}`;
+            let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${data[index].lat}&lon=${data[index].lon}&units=imperial&appid=${API_KEY}`;
 
             return url;
         }).then( url => {

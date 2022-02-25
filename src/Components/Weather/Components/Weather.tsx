@@ -43,10 +43,12 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
     getWeatherData(location: string) {
         WeatherAPI.getAllWeather(location).then( data => {
             let weatherData: Object = data;
-            this.setState({ weatherData });
+            this.setState({ lat: data['lat'], lon: data['lon'], weatherData });
+            return weatherData;
+        }).then(data => {
             console.log(data);
-        }).then(() => {
-            this.viewComponent = this.selectView(this.state.currentView, location, this.state.weatherData);
+            this.viewComponent = this.selectView(this.state.currentView, location, data);
+            this.forceUpdate();
         });
     }
 
@@ -57,16 +59,14 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
     selectView(view: string, location: string, weatherData: any): React.ReactElement {
         let element: React.ReactElement;
 
-
-
         switch(view) {
-            case 'todayView': element = <TodayView location={location} weatherData={weatherData?.current}/>;
+            case 'todayView': element = <TodayView location={location} weatherData={weatherData}/>;
                 break;
-            case 'hourlyView': element = <HourlyView location={location} weatherData={weatherData?.hourly}/>;
+            case 'hourlyView': element = <HourlyView location={location} weatherData={weatherData}/>;
                 break;
-            case 'dailyView': element = <DailyView location={location} weatherData={weatherData?.daily}/>;
+            case 'dailyView': element = <DailyView location={location} weatherData={weatherData}/>;
                 break;
-            default: element = <TodayView location={location} weatherData={weatherData?.current}/>;
+            default: element = <TodayView location={location} weatherData={weatherData}/>;
         }
 
         return element;
@@ -100,9 +100,6 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
                 <WeatherNav onViewChange={this.handleViewChange} onSearchClick={this.handleSearchClick} />
                 <main>
                     {this.viewComponent}
-                    {this.state.location}
-                    {this.state.lat}
-                    {this.state.lon}
                 </main>
             </div>
         );

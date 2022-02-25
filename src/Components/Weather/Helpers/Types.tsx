@@ -1,6 +1,6 @@
 export type ViewProps = {
     location: string,
-    weatherData: Object
+    weatherData: any
 }
 
 export type SearchBarPropTypes = {
