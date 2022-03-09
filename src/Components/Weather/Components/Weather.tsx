@@ -7,7 +7,7 @@ import HourlyView from './HourlyView';
 import DailyView from './DailyView';
 
 import { formatLocation } from '../Helpers/StringUtils';
-import { ViewProps, WeatherStateTypes } from '../Helpers/Types';
+import { GeoDataTransfer, ViewProps, WeatherStateTypes } from '../Helpers/Types';
 
 /* High-Order Component since the views are similar */
 function withWeatherData(WrappedComponent, weatherData) {
@@ -24,36 +24,66 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
     constructor(props: Object) {
         super(props);
 
-        let loc = formatLocation('');
+        let loc: GeoDataTransfer = {
+            location: '',
+            zip: '',
+            geoData : {
+                lat: undefined,
+                lon: undefined,
+                name:'',
+                state:'',
+                country: ''
+            }
+        };
 
         this.state = {
             location: loc,
-            lat: 0,
-            lon: 0,
             weatherData: null,
             currentView: 'todayView'
         }
 
-        this.viewComponent = <TodayView location={loc} weatherData={null} />;
+        this.viewComponent = <TodayView location={loc.location} weatherData={null} />;
 
+        
         this.handleViewChange = this.handleViewChange.bind(this);
         this.handleSearchClick = this.handleSearchClick.bind(this);
     }
 
-    getWeatherData(location: string) {
-        WeatherAPI.getAllWeather(location).then( data => {
-            let weatherData: Object = data;
-            this.setState({ lat: data['lat'], lon: data['lon'], weatherData });
-            return weatherData;
-        }).then(data => {
-            console.log(data);
-            this.viewComponent = this.selectView(this.state.currentView, location, data);
+    async getWeatherData(location: GeoDataTransfer) {
+        let weatherData = await WeatherAPI.getAllWeather(location);
+        if (weatherData.length !== 0) {
+            this.setState({ location, weatherData });
+
+            this.viewComponent = this.selectView(this.state.currentView, location.location, weatherData);
+                
             this.forceUpdate();
-        });
+        }      
     }
 
     componentDidMount() {
-        //this.getWeatherData();
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                let locObject: GeoDataTransfer = {
+                    location: '',
+                    zip: '',
+                    geoData : {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                        name:'',
+                        state:'',
+                        country: ''
+                    }
+                };
+
+                this.getWeatherData(locObject);
+            });
+      
+        } else {
+      
+            console.log("Geolocation not available.");
+      
+          }
+        
     }
 
     selectView(view: string, location: string, weatherData: any): React.ReactElement {
@@ -73,13 +103,31 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
     }
 
     handleSearchClick(location: string) {
-        let formattedLocation = formatLocation(location);
+        let formattedLocation: string, locObject: GeoDataTransfer;
+        let zipPattern = new RegExp(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
 
-        this.setState({
-            location: formattedLocation            
-        });
-        
-        this.getWeatherData(formattedLocation);
+        if (location !== '') {
+            formattedLocation = zipPattern.test(location) ? '' : formatLocation(location);
+
+            locObject = {
+                location: formattedLocation,
+                geoData: {
+                    lat: undefined,
+                    lon: undefined,
+                    name:'',
+                    state:'',
+                    country: ''
+                },
+                zip: zipPattern.test(location) ? location : ''
+            };       
+            
+            
+            this.setState({
+                location: locObject            
+            });
+    
+            this.getWeatherData(locObject);
+        }        
     }
 
     handleViewChange(event) {
@@ -90,7 +138,7 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
         ? 'dailyView' : btnId === 'maps'
         ? 'mapsView' : 'todayView';
 
-        this.viewComponent = this.selectView(currentView, this.state.location, this.state.weatherData);
+        this.viewComponent = this.selectView(currentView, this.state.location.location, this.state.weatherData);
         this.setState({ currentView });
     }
 

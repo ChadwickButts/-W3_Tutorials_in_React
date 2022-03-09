@@ -13,20 +13,24 @@ export type NavPropTypes = {
 }
 
 export type WeatherStateTypes = {
-    location: string, 
-    lat: number,
-    lon: number,
+    location: GeoDataTransfer, 
     weatherData: Object,
     currentView: string
 }
 
-export type GeoObject = {
-    lat: number,
-    lon: number,
-    name: string,
-    state: string,
-    country: string
-}     
+export type GeoData = {
+  lat: number,
+  lon: number,
+  name: string,
+  state: string,
+  country: string,
+}  
+
+export type GeoDataTransfer = {
+  geoData: GeoData,
+  location: string,
+  zip: string
+}
 
 export type WeatherObject = {
     coord: {

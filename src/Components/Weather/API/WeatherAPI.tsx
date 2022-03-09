@@ -1,4 +1,4 @@
-import { GeoObject } from '../Helpers/Types';
+import { GeoDataTransfer } from '../Helpers/Types';
 
 // hardcoding API KEY to be sure app works
 const API_KEY = 'a31a2ce5a9cdacfc5dbc885f789360e7';
@@ -6,41 +6,54 @@ const API_KEY = 'a31a2ce5a9cdacfc5dbc885f789360e7';
 
 const WeatherAPI = {
 
-    getGeoCoordinates: function(location: string): Promise<Response> {
-        let url = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=5&appid=${API_KEY}`;
+    asyncGetGeoCoordinates: async function(geoObject: GeoDataTransfer) {
+        let geoDataPromise;
+        let geoData;
 
-        return fetch(url).then(
-            response => {
-                if (response.ok) {
-                   return response.json();
-                }
-            },
-            error => {
-                return error;
+        try {
+            if (geoObject.geoData.lat !== undefined && geoObject.geoData.lon !== undefined) {
+                
+                geoDataPromise = await fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${geoObject.geoData.lat}&lon=${geoObject.geoData.lon}&limit=5&appid=${API_KEY}`).catch( error => console.log );
+                geoData = await geoDataPromise.json(); 
+                geoData = geoData[0];       
+            } else {
+                if (geoObject.zip !== '') {
+                    geoDataPromise = await fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${geoObject.zip}&limit=5&appid=${API_KEY}`).catch( error => console.log );
+                    geoData = await geoDataPromise.json();   
+                } else {
+                    geoDataPromise = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${geoObject.location}&limit=5&appid=${API_KEY}`).catch( error => console.log );
+                    geoData = await geoDataPromise.json();
+                    const {local_names, ...geoProps} = geoData[0];
+                
+                    geoData = geoProps;
+                }            
             }
-        )
+        } catch {
+            console.log('invalid location');
+        }
+
+        geoObject.geoData = geoData;
+
+        geoObject.location = geoData.name 
+        + ((geoData.state !== undefined) ?  ', ' + geoData.state : '')
+        + ', ' + geoData.country;
+        
+        return geoObject;
     },
 
-    getAllWeather: function(location: string): Promise<Response> {
+    getAllWeather: async function(location: GeoDataTransfer) {
+        let weatherDataRequest, weatherData, url;
+        let geoCoords: GeoDataTransfer = await this.asyncGetGeoCoordinates(location);
         
-        return this.getGeoCoordinates(location).then((data: Array<GeoObject>) => { 
-            let [city, state, country] = location.split(',');
-            let index = data.findIndex((geo:GeoObject) => geo.name.toLowerCase() === city && geo.state === state && geo.country === country);
-            let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${data[index].lat}&lon=${data[index].lon}&units=imperial&appid=${API_KEY}`;
-
-            return url;
-        }).then( url => {
-            return fetch(url).then(
-                response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                },
-                error => {
-                    return error;
-                }
-            )
-        });
+        url = `https://api.openweathermap.org/data/2.5/onecall?lat=${geoCoords.geoData.lat}&lon=${geoCoords.geoData.lon}&units=imperial&appid=${API_KEY}`;
+        
+        try {
+            weatherDataRequest = await fetch(url).catch( error => console.log );
+            weatherData = await weatherDataRequest.json();
+        } catch {
+            console.log('invalid location');
+        }
+        return weatherData;       
     }
 }
 
