@@ -1,7 +1,9 @@
 import React from 'react';
+import NewTaskField from './NewTaskField';
 import './todo.css';
+import ToDoListItem from './ToDoListItem';
 
-export default class ToDoList extends React.Component<{}, { taskList: Array<React.ReactElement>, taskText: string, id: number }> {
+export default class ToDoList extends React.Component<{}, { taskList: Array<Object>, taskText: string, id: number }> {
     constructor(props: Object) {
         super(props);
         this.state = { taskList: [], taskText: "", id: 1};
@@ -9,56 +11,49 @@ export default class ToDoList extends React.Component<{}, { taskList: Array<Reac
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleAddClick = this.handleAddClick.bind(this);
         this.handleRemoveClick = this.handleRemoveClick.bind(this);
-        this.handleListItemClick = this.handleListItemClick.bind(this);
     }
 
+
     handleInputChange (event: React.FormEvent<HTMLInputElement>) {
-        this.setState({ taskText: event.currentTarget.value  });
+        // Causes component to re-render every time user types 
+        // Could move text state to field component so only that re-renders or use uncontrolled input
+        this.setState({ taskText: event.currentTarget.value});
+        //console.log(event.currentTarget.value);
     }
 
     handleAddClick(event: React.MouseEvent) {
-       let tasks = this.state.taskList;
-       const newTask = <li key={this.state.id.toString()} id={this.state.id.toString()} onClick={this.handleListItemClick}>{this.state.taskText} <span className="close" onClick={this.handleRemoveClick} >x</span></li>;
-
-       tasks.push(newTask);
        // example of using callback to access state in handler setState call
-       this.setState((state) => {
-            return {
-                taskList: tasks, 
-                taskText: "", 
-                id: state.id+1
-             }
-        });
+       // using spread to avoid mutating data (modifying original object) - performance optimization
+       this.setState(state => ({
+           taskList: [...state.taskList, { taskText: state.taskText, itemKey: state.id }],
+           taskText: "",
+           id: state.id + 1
+        }));
     }
 
-    handleRemoveClick(event: React.MouseEvent) {
-        const key = event.currentTarget.parentElement.id;
-        let index = this.state.taskList.findIndex(task => task.key === key); 
+    handleRemoveClick(event) {
+        let listItem = event.target.parentElement;
+        let taskList = this.state.taskList.filter((task: {itemKey: number, taskText: string}) => task.itemKey.toString() !== listItem.id);
 
-        let newTaskList = [...this.state.taskList.slice(0,index), ...this.state.taskList.slice(index+1)];
-        this.setState({ taskList: newTaskList });
-    }
+        // updating state here automatically removes item because of re-render
+        this.setState({ taskList });
 
-    handleListItemClick(event: React.MouseEvent) {
-        const target = event.currentTarget;
-        if (target.classList.contains('checked')) {
-            target.classList.remove('checked');
-        } else {
-            target.classList.add('checked');
-        }
+        event.stopPropagation();
     }
 
     render() {
+        const tasks = this.state.taskList.map( (task: {itemKey: number, taskText: string}) => {
+            return <ToDoListItem key={task.itemKey} itemKey={task.itemKey} taskText={task.taskText} onHandleRemoveClick={this.handleRemoveClick}/>
+        });
+
         return (
             <div id="todoApp">
                 <div id="MyDiv" className="header">
                     <h2>React To-Do List</h2>
-                    <input type="text" value={this.state.taskText} onChange={this.handleInputChange} id="myInput" placeholder="Enter Task..." ></input>
-                    <button className="addBtn" type="button" onClick={this.handleAddClick}>Add</button>
+                    <NewTaskField taskText={ this.state.taskText } onHandleAddClick={this.handleAddClick} onHandleInputChange={this.handleInputChange} />
                 </div> 
-
                 <ul id="myUL">
-                    {this.state.taskList}
+                    {tasks}
                 </ul>
             </div>
 

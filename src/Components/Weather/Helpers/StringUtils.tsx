@@ -6,14 +6,11 @@ export function formatLocation(location: string): string {
     if (location !== '') {
         let [city, state, country] = location.split(',');
 
-        city = city.toLowerCase().trim();
-        state = StateCodes[state.toLowerCase().trim()];
-        if (country === undefined) {
-            country = 'US'
-        }
+        formattedLocation = city.toLowerCase().trim()
+            + (state ? ', ' + StateCodes[state.toLowerCase().trim()] : '')
+            + (country ? ', ' + country.trim() : '');
 
-        formattedLocation = city + ',' + state + ',' + country;
-    }
-
+    } 
+    
     return formattedLocation;
 }
