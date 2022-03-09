@@ -10,6 +10,7 @@
 #searchFieldContainer {
     text-align: center;
     height: 100px;
+    position: relative;
 }
 
 #searchField {
@@ -37,6 +38,7 @@
 }
 
 #viewsUL {
+    max-width: 900px;
     margin: auto;
     padding: 0;
     background-color: #282c34;

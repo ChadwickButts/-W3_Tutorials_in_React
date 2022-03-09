@@ -7,9 +7,6 @@ function App() {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
           <a className="App-link"
             href="https://reactjs.org"
             target="_blank"
@@ -19,15 +16,17 @@ function App() {
           </a>
           
         </header>
-        <h2>Components</h2>
-          <ul id="componentList">
-            <li>
-              <Link to="/todolist">W3 To-Do List</Link>
-            </li>
-            <li>
-              <Link to="/weather">Weather App</Link>
-            </li>
-          </ul>
+        <div id="componentsSection">
+          <h1>Components</h1>
+            <ul id="componentList">
+              <li>
+                <Link to="/todolist">W3 To-Do List</Link>
+              </li>
+              <li>
+                <Link to="/weather">Weather App</Link>
+              </li>
+            </ul>
+        </div>
       </div>
     );
 }

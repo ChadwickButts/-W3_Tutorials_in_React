@@ -2,6 +2,7 @@
   text-align: center;
   background-color: #282c34;
   color: #ffffff;
+  padding-bottom: 50px;
 }
 
 .App-logo {
@@ -29,10 +30,23 @@
   color: #61dafb;
 }
 
+#componentsSection {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: #1a1d22;
+  padding: 20px 10px;
+  border-radius: 30px;
+}
+
+#componentsSection h2 {
+  display:inline-block;
+}
+
 #componentList {
   padding: 0px;
   list-style-type: none;
   font-size: calc(10px + 2vmin);
+  margin: 0px;
 }
 
 #componentList li {
