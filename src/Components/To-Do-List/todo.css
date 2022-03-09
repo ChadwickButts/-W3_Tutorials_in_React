@@ -5,9 +5,10 @@ https://www.w3schools.com/howto/howto_js_todolist.asp
 
 */
 
-#todoApp body {
-  margin: 0;
+#todoApp {
+  margin: 30px auto;
   min-width: 250px;
+  max-width: 900px;
 }
 
 /* Include the padding and border in an element's total width and height */
