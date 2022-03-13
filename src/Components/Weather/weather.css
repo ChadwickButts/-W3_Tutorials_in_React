@@ -110,6 +110,12 @@
     vertical-align: middle;
 }
 
+#weatherIcon {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
 
 #extraDetails {
     display: inline-block;
@@ -144,14 +150,6 @@
     .currentSection {
         width: 300px;
     }
-
-    #mainDetails {
-        display: inline-block;
-        width: 200px;
-        text-align: center;
-        vertical-align: middle;
-    }
-    
     
     #extraDetails {
         text-align: center;

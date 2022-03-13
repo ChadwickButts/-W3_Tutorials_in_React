@@ -7,7 +7,7 @@ import HourlyView from './HourlyView';
 import DailyView from './DailyView';
 
 import { formatLocation } from '../Helpers/StringUtils';
-import { GeoDataTransfer, ViewProps, WeatherStateTypes } from '../Helpers/Types';
+import { AllWeather, GeoDataTransfer, ViewProps, WeatherStateTypes } from '../Helpers/Types';
 
 /* High-Order Component since the views are similar */
 function withWeatherData(WrappedComponent, weatherData) {
@@ -50,8 +50,8 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
     }
 
     async getWeatherData(location: GeoDataTransfer) {
-        let weatherData = await WeatherAPI.getAllWeather(location);
-        if (weatherData.length !== 0) {
+        let weatherData: AllWeather = await WeatherAPI.getAllWeather(location);
+        if (weatherData !== null) {
             this.setState({ location, weatherData });
 
             this.viewComponent = this.selectView(this.state.currentView, location.location, weatherData);
@@ -86,7 +86,7 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
         
     }
 
-    selectView(view: string, location: string, weatherData: any): React.ReactElement {
+    selectView(view: string, location: string, weatherData: AllWeather): React.ReactElement {
         let element: React.ReactElement;
 
         switch(view) {

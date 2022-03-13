@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewProps } from '../Helpers/Types';
+import { CurrentWeather, ViewProps } from '../Helpers/Types';
 
 
 
@@ -12,10 +12,8 @@ export default class TodayView extends React.Component< ViewProps,{}> {
         if (this.props.weatherData === null) {
             return 'no data';
         } else {
-            const currentWeather = this.props.weatherData.current;
+            const currentWeather: CurrentWeather = this.props.weatherData.current;
             const date = new Date();
-
-            console.log(this.props.weatherData);
 
             if (currentWeather !== undefined) {
                 return  (
@@ -28,14 +26,16 @@ export default class TodayView extends React.Component< ViewProps,{}> {
                                     <span id="time">{date.toString()}</span>
                                 </h2>
                                 <div id="details" >
+                                    <div id="weatherIcon">
+                                        <img alt="weathericon" src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`} />                                        
+                                    </div>
                                     <div id="mainDetails">
                                         <span id="temp">
-                                            {parseInt(currentWeather.temp)}&deg;
-                                            <img alt="weathericon" src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`} />
+                                            {currentWeather.temp}&deg;
                                         </span> 
                                     </div>
                                     <div id="extraDetails">
-                                        <span id="feels_like">Feels Like: {parseInt(currentWeather.feels_like)}&deg;</span>
+                                        <span id="feels_like">Feels Like: {currentWeather.feels_like}&deg;</span>
                                         <br/>
                                         <span id="humidity">Humidity: {currentWeather.humidity}%</span>
                                     </div>

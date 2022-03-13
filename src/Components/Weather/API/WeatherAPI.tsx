@@ -1,4 +1,4 @@
-import { GeoDataTransfer } from '../Helpers/Types';
+import { AllWeather, GeoDataTransfer } from '../Helpers/Types';
 
 // hardcoding API KEY to be sure app works
 const API_KEY = 'a31a2ce5a9cdacfc5dbc885f789360e7';
@@ -42,7 +42,7 @@ const WeatherAPI = {
     },
 
     getAllWeather: async function(location: GeoDataTransfer) {
-        let weatherDataRequest, weatherData, url;
+        let weatherDataRequest, weatherData: AllWeather, url;
         let geoCoords: GeoDataTransfer = await this.asyncGetGeoCoordinates(location);
         
         url = `https://api.openweathermap.org/data/2.5/onecall?lat=${geoCoords.geoData.lat}&lon=${geoCoords.geoData.lon}&units=imperial&appid=${API_KEY}`;

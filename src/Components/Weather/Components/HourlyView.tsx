@@ -1,5 +1,6 @@
 import React from 'react';
-import { ViewProps } from '../Helpers/Types';
+import { HourlyWeather, ViewProps } from '../Helpers/Types';
+import HourlyTable from './HourlyTable';
 
 export default class HourlyView extends React.Component< ViewProps,{}> {
     componentDidUpdate(prevProps) {
@@ -12,13 +13,14 @@ export default class HourlyView extends React.Component< ViewProps,{}> {
         if (this.props.weatherData === null) {
             return 'no data';
         } else {
-            const hourlyWeather = this.props.weatherData.hourly;
+            const hourlyWeather: Array<HourlyWeather> = this.props.weatherData.hourly;
 
             if (hourlyWeather !== undefined) {
-                let uiChange = hourlyWeather.hourly[0].weather[0].description;
+                let uiChange = hourlyWeather[0].weather[0].description;
 
-                return  (
+                return  (                    
                     <div>
+                       <HourlyTable hourlyData={hourlyWeather}></HourlyTable>
                         <h3>Today it is: {uiChange}</h3>
                     </div>
                 );
