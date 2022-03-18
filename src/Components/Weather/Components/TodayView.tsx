@@ -13,7 +13,13 @@ export default class TodayView extends React.Component< ViewProps,{}> {
             return 'no data';
         } else {
             const currentWeather: CurrentWeather = this.props.weatherData.current;
-            const date = new Date();
+            let options: Intl.DateTimeFormatOptions = { 
+                month: 'short', day: 'numeric',
+                hour: 'numeric', minute: 'numeric', second: 'numeric',
+                hour12: true,
+                timeZone: this.props.weatherData.timezone
+              };
+            let date = new Intl.DateTimeFormat('en-US', options).format(new Date(currentWeather.dt * 1000));
 
             if (currentWeather !== undefined) {
                 return  (
@@ -23,7 +29,7 @@ export default class TodayView extends React.Component< ViewProps,{}> {
                                 <h2 className="location">
                                     {this.props.location + "  "}
                                     <br/>
-                                    <span id="time">{date.toString()}</span>
+                                    <span id="time">{date}</span>
                                 </h2>
                                 <div id="details" >
                                     <div id="weatherIcon">

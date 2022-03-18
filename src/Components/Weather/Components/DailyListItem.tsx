@@ -3,9 +3,10 @@ import { DailyWeather } from "../Helpers/Types";
 
 class DailyListItem extends React.Component<{ day: DailyWeather }, {}> {
     render() {
+        const date = new Date(this.props.day.dt * 1000)
         return (
             <article>
-                <span> { this.props.day.dt } </span>
+                <span> { date.toLocaleDateString() } </span>
                 <span> { this.props.day.temp.min } </span>
                 <span> { this.props.day.temp.max } </span>
                 <span> { this.props.day.weather[0].description } </span>
