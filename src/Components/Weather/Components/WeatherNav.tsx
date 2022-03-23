@@ -23,23 +23,25 @@ class WeatherNav extends React.Component< NavPropTypes > {
 
     render() {
        return (
-            <nav>
-                <SearchLocation onSearchClick={this.props.onSearchClick} />
-                <ul id="viewsUL">
-                    <li className="active">
-                        <button type="button" id="today" onClick={this.handleViewClick}>Today</button> 
-                    </li>
-                    <li>
-                        <button type="button" id="hourly" onClick={this.handleViewClick}>Hourly</button> 
-                    </li>
-                    <li>
-                        <button type="button" id="daily" onClick={this.handleViewClick}>Daily (7 Days)</button> 
-                    </li>
-                    <li>
-                        <button type="button" id="maps" onClick={this.handleViewClick}>Weather Maps</button> 
-                    </li>
-                </ul>
-            </nav>
+           <header>
+                <nav>
+                    <SearchLocation onSearchClick={this.props.onSearchClick} />
+                    <ul id="viewsUL">
+                        <li className="active">
+                            <button type="button" id="today" onClick={this.handleViewClick}>Today</button> 
+                        </li>
+                        <li>
+                            <button type="button" id="hourly" onClick={this.handleViewClick}>Hourly</button> 
+                        </li>
+                        <li>
+                            <button type="button" id="daily" onClick={this.handleViewClick}>Daily (7 Days)</button> 
+                        </li>
+                        <li>
+                            <button type="button" id="maps" onClick={this.handleViewClick}>Weather Maps</button> 
+                        </li>
+                    </ul>
+                </nav>
+            </header>
        )
     }
 }

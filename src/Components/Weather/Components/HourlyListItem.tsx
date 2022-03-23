@@ -16,11 +16,11 @@ class HourlyListItem extends React.Component< { hourData: HourlyWeather } ,{}> {
             <tr >
                 <td> { Intl.DateTimeFormat('en-US', options).format(date) }</td>
                 <td> 
-                <img alt="weathericon" src={`http://openweathermap.org/img/wn/${this.props.hourData.weather[0].icon}.png`} />   
-                    { this.props.hourData.temp} 
+                    <img className="hrlyConditionsIcon" alt="weathericon" src={`http://openweathermap.org/img/wn/${this.props.hourData.weather[0].icon}.png`} />   
+                    <span className="hrlyTemp">{ this.props.hourData.temp} </span>
                 </td>
                 <td> { this.props.hourData.weather[0].main } </td>
-                <td> { this.props.hourData.weather[0].description } </td>
+                {/* <td> { this.props.hourData.weather[0].description } </td> */}
             </tr>);         
         }
 }

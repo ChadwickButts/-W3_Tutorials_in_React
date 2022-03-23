@@ -13,7 +13,10 @@ class DailyView extends React.Component<ViewProps,{}> {
         
         return  (
             <section className="currentSection" >
-                { days }
+                <div className="dayCarousel">
+                    <h3>8-Day Weather Forecast</h3>
+                    { days }
+                </div>
             </section>
         );        
     }

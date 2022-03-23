@@ -13,19 +13,21 @@ class HourlyTable extends React.Component< { hourlyData: Array<HourlyWeather> } 
         });
         return (
             <section className="currentSection" >
-            <table className="table">
+            <div className="table">
+            <table>
                 <thead>
                     <tr>
                         <th>Date</th>
                         <th>Temperature</th>
                         <th>Conditions</th>
-                        <th>Description</th>
+                        {/* <th>Description</th> */}
                     </tr>
                 </thead>
                 <tbody>
                     {rows}
                 </tbody>
             </table>
+            </div>
             </section>
         )        
     }
