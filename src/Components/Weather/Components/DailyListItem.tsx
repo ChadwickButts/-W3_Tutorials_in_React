@@ -14,13 +14,22 @@ class DailyListItem extends React.Component<{ day: DailyWeather }, {}> {
                     <figure>
                         <figcaption> { this.props.day.weather[0].main } </figcaption>
                         <img alt="weathericon" src={`http://openweathermap.org/img/wn/${this.props.day.weather[0].icon}@2x.png`} />                                        
-                        <figcaption> { this.props.day.temp.day } </figcaption>
+                        <figcaption> { this.props.day.temp.day.toPrecision(2) }℉ </figcaption>
                     </figure>
-                    <p> high: { this.props.day.temp.max } </p>
-                    <p> low: { this.props.day.temp.min } </p>
+                    <span className="dayCardHigh"> 
+                        high: 
+                        <span className="dayCardTemps"> { this.props.day.temp.max.toPrecision(2) }° </span>
+                    </span>
+                    <span className="dayCardLow"> 
+                        low: 
+                        <span className="dayCardTemps"> { this.props.day.temp.min.toPrecision(2) }° </span>
+                    </span>
                 </div>
-                <p> { date } </p>
-                <p> Feels Like: { this.props.day.feels_like.day } </p>
+                <span className="dayCardDate"> { date } </span>
+                <span className="dayCardFeels"> 
+                    Feels Like: 
+                    <span className="dayCardFeelsTemp"> { this.props.day.feels_like.day.toPrecision(2) }° </span>
+                </span>
             </article>
         )
     }

@@ -65,46 +65,97 @@
 }
 
 /* Daily View */
-
-.dayCarousel {
+.dayContainer {
     display: block;
-    height: 290px;
-    width: 890px;
-    padding: 30px;
+    height: 350px;
+    width: 800px;
     margin: auto;
+    margin-top: 30px;
+}
+
+.dayContainer h3 {
+    margin: 0px;
+    margin-left: 5px;
+}
+
+.dayHorizontal {
+    display: block;
+    height: 270px;
+    width: 800px;
     white-space: nowrap;
-    background-color: red;
     overflow-x: scroll;
 }
 
 .dayCard {
     display: inline-block;
-    height: 210px;
+    height: 230px;
     width: 150px;
     padding: 10px; 
+    margin: 20px 5px; 
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #676b70;
+    box-sizing: border-box;
+    color: black;
+}
+
+.dayCard:hover {
+    background-color: #282c34;
+    transform: scale3d(1.05, 1.05, 1.05);
+    color: #61dafb;
+}
+
+.dayCardMain {
+    height: 150px;
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #000000;
+    box-sizing: border-box;
 }
 
 .dayCard figure {
     position: relative;
+    height: 110px;
     text-align: center;
     margin: 0px;
-    color: black;
+    font-size: 24px;
 }
 
 .dayCard figcaption:nth-of-type(1) {
     position: absolute;
-    top: 5px;
+    top: -5px;
     left: 50%;
     translate: -50%;
-    font-size: 24px;
 }
 
 .dayCard figcaption:nth-of-type(2) {
     position: absolute;
-    bottom: 5px;
+    bottom: 0px;
     left: 50%;
     translate: -50%;
-    font-size: 32px;
+}
+
+.dayCardHigh, .dayCardLow {
+    display: block;
+    font-size: 12px;
+    color: #fff;
+}
+
+.dayCardTemps, .dayCardFeelsTemp {
+    font-size: 14px;
+    color: #fff;
+}
+
+.dayCardDate {
+    display: block;
+    font-size: 14px;
+    color: #fff;
+}
+
+.dayCardFeels {
+    display: block;
+    font-size: 12px;
+    color: #fff;
 }
 
 /* Daily View End */
