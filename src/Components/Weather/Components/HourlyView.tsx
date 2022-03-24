@@ -16,12 +16,9 @@ export default class HourlyView extends React.Component< ViewProps,{}> {
             const hourlyWeather: Array<HourlyWeather> = this.props.weatherData.hourly;
 
             if (hourlyWeather !== undefined) {
-                let uiChange = hourlyWeather[0].weather[0].description;
-
                 return  (                    
                     <div>
                        <HourlyTable hourlyData={hourlyWeather}></HourlyTable>
-                        <h3>Today it is: {uiChange}</h3>
                     </div>
                 );
             } else {

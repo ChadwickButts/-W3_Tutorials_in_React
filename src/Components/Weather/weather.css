@@ -38,9 +38,11 @@
 }
 
 #viewsUL {
-    max-width: 900px;
+    max-width: 400px;
     margin: auto;
     padding: 0;
+    background-color: #282c34;
+    border-radius: 10px;
 }
 
 #viewsUL li {
@@ -61,7 +63,11 @@
 #viewsUL li:hover, #viewsUL li.active {
     border-color: #ffffff;
     cursor: pointer;
-    background-color: #676b70;
+    background-color: #3f4551;
+}
+
+.viewContainer {
+    padding: 30px;
 }
 
 /* Daily View */
@@ -80,30 +86,38 @@
 
 .dayHorizontal {
     display: block;
-    height: 270px;
+    height: 300px;
     width: 800px;
     white-space: nowrap;
     overflow-x: scroll;
+}
+
+.dayCardBtn {
+    cursor: pointer;
+    border: 0px;
+    padding: 0;
+    margin: 20px 5px;
+    background-color: transparent;
 }
 
 .dayCard {
     display: inline-block;
     height: 230px;
     width: 150px;
-    padding: 10px; 
-    margin: 20px 5px; 
-    border: 1px solid black;
+    padding: 10px;  
+    border: 1px solid #222;
     border-radius: 10px;
     background-color: #676b70;
     box-sizing: border-box;
-    color: black;
+    color: #222222;
 }
 
-.dayCard:hover {
+.dayCard:hover, .dayCard.active {
     background-color: #282c34;
     transform: scale3d(1.05, 1.05, 1.05);
-    color: #61dafb;
+    color: #fff;
 }
+
 
 .dayCardMain {
     height: 150px;
@@ -150,6 +164,7 @@
     display: block;
     font-size: 14px;
     color: #fff;
+    margin-bottom: 5px;
 }
 
 .dayCardFeels {
@@ -177,6 +192,12 @@
     overflow: auto;
 }
 
+.table thead {
+    position: sticky;
+    top: 0;
+    background-color: #282c34;
+}
+
 
 table {
     border-collapse: collapse;
@@ -186,9 +207,13 @@ table {
 th, td {
     vertical-align: middle;
     text-align: left;
-    padding: 10px;
+    padding: 5px 10px;
     margin: 0;
     width: 10%;
+}
+
+.table tr th:nth-of-type(2), .table tr td:nth-of-type(2) {
+    width: 5%;
 }
 
 tr {
@@ -278,7 +303,6 @@ tr {
     #viewsUL {
         margin: auto;
         padding: 10px;
-        padding-bottom: 0;
     }
 
     #viewsUL li {
