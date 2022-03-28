@@ -14,3 +14,18 @@ export function formatLocation(location: string): string {
     
     return formattedLocation;
 }
+
+export function memoizeAPI(f) {
+    const cache = new Map();
+
+    return function memoized(url) {
+
+        if (cache.has(url)) {
+            return cache.get(url);
+        } else {
+            let result = f.call(this, url);
+            cache.set(url, result);
+            return result;
+        }
+    }
+}

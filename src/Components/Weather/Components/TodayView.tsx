@@ -37,7 +37,7 @@ export default class TodayView extends React.Component< ViewProps,{}> {
                                     </div>
                                     <div id="mainDetails">
                                         <span id="temp">
-                                            {currentWeather.temp}&deg;
+                                            { currentWeather.temp.toPrecision(2) }&deg;
                                         </span> 
                                     </div>
                                     <div id="extraDetails">

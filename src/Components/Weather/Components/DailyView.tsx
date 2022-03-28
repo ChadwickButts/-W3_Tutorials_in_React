@@ -44,9 +44,9 @@ class DailyView extends React.Component<ViewProps,{ activeDayCard: number }> {
                     <div className="dayHorizontal">
                         { days }
                     </div>
-                    <div>
+                    {/* <div>
                         Active day is {activeDay}
-                    </div>
+                    </div> */}
                 </div>
             </section>
         );        

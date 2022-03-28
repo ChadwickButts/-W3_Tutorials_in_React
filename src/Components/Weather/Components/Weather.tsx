@@ -147,6 +147,7 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
             <div id="weatherApp">
                 <WeatherNav onViewChange={this.handleViewChange} onSearchClick={this.handleSearchClick} />
                 <main className='viewContainer'>
+                    { this.state.location.location }
                     {this.viewComponent}
                 </main>
             </div>
