@@ -26,11 +26,6 @@ export default class TodayView extends React.Component< ViewProps,{}> {
                     <div>
                         <section className="currentSection" >
                             <div id="currentWeather">
-                                <h2 className="location">
-                                    {this.props.location + "  "}
-                                    <br/>
-                                    <span id="time">{date}</span>
-                                </h2>
                                 <div id="details" >
                                     <div id="weatherIcon">
                                         <img alt="weathericon" src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`} />                                        

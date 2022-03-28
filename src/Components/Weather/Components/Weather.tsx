@@ -142,12 +142,26 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
         this.setState({ currentView });
     }
 
-    render() {
+    render() { 
+        let options: Intl.DateTimeFormatOptions = { 
+            month: 'short', day: 'numeric',
+            hour: 'numeric', minute: 'numeric', second: 'numeric',
+            hour12: true,           
+        };
+
+        let date = new Intl.DateTimeFormat('en-US', options).format(new Date());
+
+        if (this.state.weatherData !== null){
+            options.timeZone = this.state.weatherData.timezone;
+            date = new Intl.DateTimeFormat('en-US', options).format(new Date(this.state.weatherData.current.dt * 1000));
+        }
+
         return (
             <div id="weatherApp">
                 <WeatherNav onViewChange={this.handleViewChange} onSearchClick={this.handleSearchClick} />
                 <main className='viewContainer'>
-                    { this.state.location.location }
+                    <h2 className="location">{ this.state.location.location }</h2>
+                    <h3 id="time">{date}</h3>
                     {this.viewComponent}
                 </main>
             </div>

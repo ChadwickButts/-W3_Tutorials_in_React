@@ -4,7 +4,9 @@ import './todo.css';
 type listItemProps = {
     itemKey: number, 
     taskText: string, 
+    status: string,
     onHandleRemoveClick: (MouseEvent) => void
+    onHandleListItemClick: (MouseEvent) => void
 }
 
 export default class ToDoListItem extends React.Component< listItemProps, {  }> {
@@ -16,8 +18,7 @@ export default class ToDoListItem extends React.Component< listItemProps, {  }> 
     }
 
     handleListItemClick(event) {
-        const target = event.currentTarget;
-        target.classList.toggle('checked');
+        this.props.onHandleListItemClick(event);
     }
 
     handleRemoveClick(event) {
@@ -25,8 +26,9 @@ export default class ToDoListItem extends React.Component< listItemProps, {  }> 
     }
 
     render() {
+
         return (
-            <li id={this.props.itemKey.toString()} onClick={this.handleListItemClick}>
+            <li className={(this.props.status === 'complete') ? "checked" : "" } id={this.props.itemKey.toString()} onClick={this.handleListItemClick}>
                 {this.props.taskText} 
                 <span className="close" onClick={this.handleRemoveClick} >x</span>
             </li>
