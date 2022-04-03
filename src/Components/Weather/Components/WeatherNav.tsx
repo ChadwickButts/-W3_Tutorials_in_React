@@ -34,11 +34,11 @@ class WeatherNav extends React.Component< NavPropTypes > {
                             <button type="button" id="hourly" onClick={this.handleViewClick}>Hourly</button> 
                         </li>
                         <li>
-                            <button type="button" id="daily" onClick={this.handleViewClick}>Daily (7 Days)</button> 
+                            <button type="button" id="daily" onClick={this.handleViewClick}>Daily (8-Days)</button> 
                         </li>
-                        <li>
+                        {/* <li>
                             <button type="button" id="maps" onClick={this.handleViewClick}>Weather Maps</button> 
-                        </li>
+                        </li> */}
                     </ul>
                 </nav>
             </header>

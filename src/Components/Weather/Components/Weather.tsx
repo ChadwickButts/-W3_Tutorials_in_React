@@ -90,13 +90,15 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
         let element: React.ReactElement;
 
         switch(view) {
-            case 'todayView': element = <TodayView location={location} weatherData={weatherData}/>;
-                break;
             case 'hourlyView': element = <HourlyView location={location} weatherData={weatherData}/>;
                 break;
             case 'dailyView': element = <DailyView location={location} weatherData={weatherData}/>;
                 break;
-            default: element = <TodayView location={location} weatherData={weatherData}/>;
+            default: element = <div>
+                <TodayView location={location} weatherData={weatherData}/>
+                <DailyView location={location} weatherData={weatherData}/>
+                <HourlyView location={location} weatherData={weatherData}/>
+            </div>;
         }
 
         return element;
@@ -150,10 +152,14 @@ class Weather extends React.Component<{}, WeatherStateTypes> {
         };
 
         let date = new Intl.DateTimeFormat('en-US', options).format(new Date());
+        let dailyComponent = null;
+        let hourlyComponent = null;
 
         if (this.state.weatherData !== null){
             options.timeZone = this.state.weatherData.timezone;
             date = new Intl.DateTimeFormat('en-US', options).format(new Date(this.state.weatherData.current.dt * 1000));
+            dailyComponent = <DailyView location={this.state.location.location} weatherData={this.state.weatherData}/>
+            hourlyComponent = <HourlyView location={this.state.location.location} weatherData={this.state.weatherData}/>
         }
 
         return (

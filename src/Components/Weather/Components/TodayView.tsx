@@ -14,46 +14,59 @@ export default class TodayView extends React.Component< ViewProps,{}> {
         } else {
             const currentWeather: CurrentWeather = this.props.weatherData.current;
             let options: Intl.DateTimeFormatOptions = { 
-                month: 'short', day: 'numeric',
-                hour: 'numeric', minute: 'numeric', second: 'numeric',
-                hour12: true,
+                hour: 'numeric', minute: 'numeric', hour12: true,
                 timeZone: this.props.weatherData.timezone
-              };
-            let date = new Intl.DateTimeFormat('en-US', options).format(new Date(currentWeather.dt * 1000));
+            };
+            let sunrise = new Intl.DateTimeFormat('en-US', options).format(new Date(currentWeather.sunrise * 1000));
+            let sunset = new Intl.DateTimeFormat('en-US', options).format(new Date(currentWeather.sunset * 1000));
 
             if (currentWeather !== undefined) {
                 return  (
                     <div>
                         <section className="currentSection" >
-                            <div id="currentWeather">
-                                <div id="details" >
-                                    <div id="weatherIcon">
-                                        <img alt="weathericon" src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`} />                                        
-                                    </div>
-                                    <div id="mainDetails">
+                            <div id="currentWeather">                               
+                                <section className='leftSide'>
+                                    <div className='details'>
                                         <span id="temp">
                                             { currentWeather.temp.toPrecision(2) }&deg;
                                         </span> 
-                                    </div>
-                                    <div id="extraDetails">
-                                        <span id="feels_like">Feels Like: {currentWeather.feels_like}&deg;</span>
                                         <br/>
-                                        <span id="humidity">Humidity: {currentWeather.humidity}%</span>
+                                        
                                     </div>
-                                    <div id="conditions">
-                                        <span>{currentWeather.weather[0].main}</span>
+                                    <div id="weatherIcon">
+                                        <img alt="weathericon" src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`} />                                        
+                                    </div>
+                                    <div >
+                                        <span id="feels_like">Feels Like: {currentWeather.feels_like.toPrecision(2)}&deg; </span>                                        
+                                        <span id="humidity">Humidity: {currentWeather.humidity.toPrecision(2)}%</span>
                                         <br/>
-                                        <span>{currentWeather.weather[0].description}</span>  
+                                        <span id="conditions">{currentWeather.weather[0].main} • {currentWeather.weather[0].description}</span>
                                     </div>
-                                </div>
+                                </section>
+                                <section className='rightSide'>
+                                    <div className='extraDetails'>
+                                        <span >Sunrise: { sunrise }</span>
+                                        <br/>
+                                        <span >Sunset: { sunset }</span>
+                                        <br/>
+                                        <span>Wind Speed: { currentWeather.wind_speed }</span> 
+                                        <br/>
+                                        <span>Wind Direction: { currentWeather.wind_deg }</span> 
+                                        <br/>
+                                        <span>Ultraviolet Index: { currentWeather.uvi }</span>
+                                        <br/> 
+                                        <span>Dew Point: { currentWeather.dew_point }</span> 
+                                       
+                                    </div>
+                                </section>
                             </div>
                         </section>
-                        <section >
+                        {/* <section >
                             Forcast for rest of day
                         </section>
                         <section >
                             Detailed Breakdown
-                        </section>
+                        </section> */}
                     </div>
                 );
             } else {

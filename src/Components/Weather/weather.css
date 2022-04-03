@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;;
+}
+
 #weatherApp {
     background-color: #3b3d40;
     color: #ffffff;
@@ -80,8 +84,7 @@
 .dayContainer {
     display: block;
     height: 350px;
-    width: 800px;
-    margin: auto;
+    width: 100%;
     margin-top: 30px;
 }
 
@@ -93,7 +96,7 @@
 .dayHorizontal {
     display: block;
     height: 300px;
-    width: 800px;
+    width: 100%;
     white-space: nowrap;
     overflow-x: scroll;
 }
@@ -102,7 +105,7 @@
     cursor: pointer;
     border: 0px;
     padding: 0;
-    margin: 20px 5px;
+    margin: 20px 8px;
     background-color: transparent;
 }
 
@@ -234,61 +237,60 @@ tr {
 .hrlyTemp {
     vertical-align: middle;
 }
-/* Hourly View */
+/* Hourly View */  
 
 /* Today View */
 .currentSection { 
     max-width: 1000px;
     margin: 20px auto;
+    text-align: center;
 }
 
-#currentWeather {
+#currentWeather {    
+    display: block;
     background-color: #676b70;
     box-shadow: 0 0 70px -10px rgba(0, 0, 0, 0.2);
-    border: 1px solid #282c34;
-    border-radius: 20px;
+    border: 1px solid #282c34;    
     overflow-x: hidden;
-    margin: auto;
-    max-width: 700px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#currentWeather .leftSide, #currentWeather .rightSide {
+    display: inline-block;
+    margin: 0 5px;
+    width: 375px;
+    padding: 30px 0;
+    text-align: left;
+}
+
+#currentWeather .rightSide {
+    text-align: right;
 }
 
 #temp {
-    font-size: 60px;
+    font-size: 6rem;
 }
 
 #conditions {
-    font-size: 30px;
-    font-weight: bold;
+    margin-top: 5px;
+    font-size: 1.5rem;
 }
 
-#conditions span:nth-of-type(2), #time {
-    font-size: 16px;
-    vertical-align: top;
-}
-
-#details {
-    text-align: center;
-}
-
-#mainDetails {
+.details {
     display: inline-block;
-    width: 200px;
-    text-align: center;
-    vertical-align: middle;
+    width: 150px;
 }
 
 #weatherIcon {
     display: inline-block;
-    text-align: center;
-    vertical-align: middle;
+    padding: 20px;
+    vertical-align: top;
 }
 
-
-#extraDetails {
-    display: inline-block;
-    width: 150px;
-    text-align: right;
-    vertical-align: middle;
+.extraDetails {
+    font-size: 1.5em;
+    text-align: center;
 }
 
 /* Today View End */
@@ -311,12 +313,24 @@ tr {
         margin: 0;
     }
 
+    /* Daily View */
+
+    .dayContainer {
+        width: 100%;
+    }
+
+    /* Daily View End */
+
     /* Today View */
     
     .currentSection {
-        width: 300px;
+        max-width: 500px;
     }
     
+    #currentWeather .leftSide, #currentWeather .rightSide {
+        padding: 10px;
+    }
+
     #extraDetails {
         text-align: center;
         padding-bottom: 10px;

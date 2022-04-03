@@ -17,9 +17,7 @@ export default class HourlyView extends React.Component< ViewProps,{}> {
 
             if (hourlyWeather !== undefined) {
                 return  (                    
-                    <div>
-                       <HourlyTable hourlyData={hourlyWeather}></HourlyTable>
-                    </div>
+                    <HourlyTable hourlyData={hourlyWeather}></HourlyTable>                    
                 );
             } else {
                 return (
