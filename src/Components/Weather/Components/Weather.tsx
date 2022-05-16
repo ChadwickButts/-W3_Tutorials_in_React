@@ -54,12 +54,12 @@ function Weather(props) {
                 loc.geoData.lon = position.coords.longitude
                 locationSet(loc);
 
-                getWeatherData(loc);
+                getWeatherData(location);
             });      
         } else {
             console.log("Geolocation not available.");      
         }
-    }, [loc, getWeatherData])
+    }, [])
 
     //viewComponent = <TodayView location={loc.location} weatherData={null} />;
 
