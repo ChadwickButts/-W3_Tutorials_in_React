@@ -1,7 +1,29 @@
-import React from 'react';
 import { HourlyWeather, ViewProps } from '../Helpers/Types';
 import HourlyTable from './HourlyTable';
 
+function HourlyView(props) {
+     if (props.weatherData === null) {
+         return (
+            <span>No Data</span>
+         );
+     } else {
+         const hourlyWeather: Array<HourlyWeather> = props.weatherData.hourly;
+
+         if (hourlyWeather !== undefined) {
+             return (
+                 <HourlyTable hourlyData={hourlyWeather}></HourlyTable>
+             );
+         } else {
+             return (
+                 <div>Data is unavailable.</div>
+             )
+         }
+     }
+}
+
+export default HourlyView;
+
+/*
 export default class HourlyView extends React.Component< ViewProps,{}> {
     componentDidUpdate(prevProps) {
         if (prevProps.location !== this.props.location) {
@@ -26,4 +48,4 @@ export default class HourlyView extends React.Component< ViewProps,{}> {
             }
         } 
     }
-}
+}*/
