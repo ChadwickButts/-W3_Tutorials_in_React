@@ -1,7 +1,7 @@
 import { AllWeather, GeoDataTransfer } from '../Helpers/Types';
 
 // hardcoding API KEY to be sure app works
-const API_KEY = 'a31a2ce5a9cdacfc5dbc885f789360e7';
+const API_KEY = '432eace0ad36cac5cc3975003b08e252';
 
 
 const WeatherAPI = {
@@ -28,8 +28,8 @@ const WeatherAPI = {
                     geoData = geoProps;
                 }            
             }
-        } catch {
-            console.log('invalid location');
+        } catch(error) {
+            console.log('invalid location : ', error);
         }
 
         geoObject.geoData = geoData;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import WeatherAPI from '../API/WeatherAPI';
 import '../weather.css';
 import WeatherNav from './WeatherNav';
@@ -7,82 +7,92 @@ import HourlyView from './HourlyView';
 import DailyView from './DailyView';
 
 import { formatLocation } from '../Helpers/StringUtils';
-import { AllWeather, GeoDataTransfer, ViewProps, WeatherStateTypes } from '../Helpers/Types';
+import { AllWeather, GeoDataTransfer,  } from '../Helpers/Types';
+//import { ViewProps, WeatherStateTypes } from '../Helpers/Types';
 
 /* High-Order Component since the views are similar */
-function withWeatherData(WrappedComponent, weatherData) {
-    return class extends React.Component<ViewProps , {}> {
-        render() {
-            return <WrappedComponent weatherData={weatherData} {...this.props} />
-        }
-    }
-}
+// function withWeatherData(WrappedComponent, weatherData) {
+//     return class extends React.Component<ViewProps , {}> {
+//         render() {
+//             return <WrappedComponent weatherData={weatherData} {...this.props} />
+//         }
+//     }
+// }
 
 function Weather(props) {
-    let viewComponent: React.ReactElement;
-    let loc: GeoDataTransfer = {
-        location: '',
-        zip: '',
-        geoData : {
-            lat: undefined,
-            lon: undefined,
-            name:'',
-            state:'',
-            country: ''
-        }
-    };
-
-    const [location, locationSet] = useState<GeoDataTransfer>(loc);
+    const [loading, loadingSet] = useState<boolean>(true);
+    const [location, locationSet] = useState<GeoDataTransfer | undefined>(undefined);
     const [weatherData, weatherDataSet] = useState<AllWeather | undefined>(undefined);
     const [currentView, currentViewSet] = useState<string>("todayView");
-    const getWeatherData = async (location: GeoDataTransfer) => {
-        let weatherData: AllWeather = await WeatherAPI.getAllWeather(location);
-        if (weatherData !== null) {
-            locationSet(location);
-            weatherDataSet(weatherData);
-
-            viewComponent = selectView(currentView, location.location, weatherData);
-                
-            //this.forceUpdate();
-        }      
-    }
+    const [viewComponent, viewComponentSet] = useState<Array<React.ReactElement>>([]);
+    const memoRequestCount = useRef(0);
 
     useEffect( () => {
+        loadingSet(true);
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
-                loc.geoData.lat = position.coords.latitude
-                loc.geoData.lon = position.coords.longitude
-                locationSet(loc);
+                const locObject: GeoDataTransfer = {
+                    location: '',
+                    zip: '',
+                    geoData : {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                        name:'',
+                        state:'',
+                        country: ''
+                    }
+                };
 
-                getWeatherData(location);
-            });      
+                locationSet(locObject);
+                loadingSet(false);
+            });
         } else {
-            console.log("Geolocation not available.");      
+            console.log("Geolocation not available.");
         }
-    }, [])
+    }, []);
 
-    //viewComponent = <TodayView location={loc.location} weatherData={null} />;
+    useEffect(() => { 
+            loadingSet(true);
 
+            async function getWeatherData() {
+                memoRequestCount.current += 1;
+
+                if (location) {
+                    const weather: AllWeather = await WeatherAPI.getAllWeather(location);
+                    
+                    if (weather !== null) {
+                        weatherDataSet(weather);
+                    }   
+
+                    loadingSet(false);
+                }
+            };
+
+            if (!(memoRequestCount.current > 10)) {
+                getWeatherData();
+            } else {
+                console.log("ran 10 times");
+            }
+            
+    }, [location]);
+
+    useEffect(() => {
+        let element: Array<React.ReactElement>;
+        
+        switch(currentView) {
+            case 'hourlyView': element = [<HourlyView key={1} location={location} weatherData={weatherData}/>];
+                break;
+            case 'dailyView': element = [<DailyView key={1} location={location} weatherData={weatherData}/>];
+                break;
+            default: element = [
+                <TodayView key={1} location={location} weatherData={weatherData}/>,
+                <DailyView key={2} location={location} weatherData={weatherData}/>,
+                <HourlyView key={3} location={location} weatherData={weatherData}/>
+            ];
+        }
+        viewComponentSet(element);
+    }, [location, weatherData, currentView]);
     
-
-    const selectView = (view: string, location: string, weatherData: AllWeather): React.ReactElement => {
-        let element: React.ReactElement;
-
-        switch(view) {
-            case 'hourlyView': element = <HourlyView location={location} weatherData={weatherData}/>;
-                break;
-            case 'dailyView': element = <DailyView location={location} weatherData={weatherData}/>;
-                break;
-            default: element = <div>
-                <TodayView location={location} weatherData={weatherData}/>
-                <DailyView location={location} weatherData={weatherData}/>
-                <HourlyView location={location} weatherData={weatherData}/>
-            </div>;
-        }
-
-        return element;
-    }
-
     const handleSearchClick = (location: string) => {
         let formattedLocation: string, locObject: GeoDataTransfer;
         let zipPattern = new RegExp(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
@@ -102,9 +112,7 @@ function Weather(props) {
                 zip: zipPattern.test(location) ? location : ''
             };       
             
-            
-            locationSet(locObject);    
-            getWeatherData(locObject);
+            locationSet(locObject);   
         }        
     }
 
@@ -116,7 +124,6 @@ function Weather(props) {
         ? 'dailyView' : btnId === 'maps'
         ? 'mapsView' : 'todayView';
 
-        viewComponent = selectView(currentView, location.location, weatherData);
         currentViewSet(currentView);
     }
 
@@ -141,9 +148,16 @@ function Weather(props) {
         <div id="weatherApp">
             <WeatherNav onViewChange={handleViewChange} onSearchClick={handleSearchClick} />
             <main className='viewContainer'>
-                <h2 className="location">{ location.location }</h2>
-                <h3 id="time">{date}</h3>
-                { viewComponent }
+                { loading
+                ?   <main className='viewContainer'>
+                        <h3>Loading...</h3>
+                    </main>
+                : <main className='viewContainer'>
+                    <h2 className="location">{ location.location }</h2>
+                    <h3 id="time">{date}</h3>
+                    { viewComponent }
+                  </main>
+                }
             </main>
         </div>
     );

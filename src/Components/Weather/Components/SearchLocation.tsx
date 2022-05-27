@@ -15,7 +15,7 @@ function SearchLocation(props) {
     }
  
      const handleSearchClick = () => {
-        props.onSearchClick(this.userInput);
+        props.onSearchClick(userInput);
      }
 
      return(
