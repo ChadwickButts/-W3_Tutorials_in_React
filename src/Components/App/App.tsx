@@ -18,6 +18,9 @@ function App() {
               <li>
                 <Link to="/weather">Weather App</Link>
               </li>
+              <li>
+                <Link to="/contacts">Contact List</Link>
+              </li>
             </ul>
         </div>
       </div>
