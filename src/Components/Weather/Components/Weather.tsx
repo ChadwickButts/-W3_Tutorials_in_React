@@ -86,8 +86,8 @@ function Weather(props) {
                 break;
             default: element = [
                 <TodayView key={1} location={location} weatherData={weatherData}/>,
-                <DailyView key={2} location={location} weatherData={weatherData}/>,
-                <HourlyView key={3} location={location} weatherData={weatherData}/>
+                // <DailyView key={2} location={location} weatherData={weatherData}/>,
+                // <HourlyView key={3} location={location} weatherData={weatherData}/>
             ];
         }
         viewComponentSet(element);

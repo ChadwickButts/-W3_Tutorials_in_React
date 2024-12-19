@@ -3,6 +3,7 @@ import { DailyWeather } from '../Helpers/Types';
 import DailyListItem from './DailyListItem';
 
 function DailyView(props) {
+    const dailyWeather: any = props.weatherData.daily;
     const [state, setState] = useState({
         activeDayCard: undefined
     });
@@ -19,27 +20,34 @@ function DailyView(props) {
         });
     }
 
-    const days = props.weatherData.daily.map((day: DailyWeather, i) => {
-        return (
-            <button key={i} id={"btn-" + i} className="dayCardBtn" type="button" onClick={handleItemClick}>
-                <DailyListItem day={day} />
-            </button>
-        );
-    });
+    if (dailyWeather !== undefined) {
+        const days = dailyWeather.map((day: DailyWeather, i) => {
+            return (
+                <button key={i} id={"btn-" + i} className="dayCardBtn" type="button" onClick={handleItemClick}>
+                    <DailyListItem day={day} />
+                </button>
+            );
+        });
 
-    return (
-        <section className="currentSection" >
-            <div className="dayContainer">
-                <h3>8-Day Weather Forecast</h3>
-                <div className="dayHorizontal">
-                    {days}
+        return (
+            <section className="currentSection" >
+                <div className="dayContainer">
+                    <h3>8-Day Weather Forecast</h3>
+                    <div className="dayHorizontal">
+                        {days}
+                    </div>
+                    {/* <div>
+                            Active day is {activeDay}
+                        </div>  */}
                 </div>
-                {/* <div>
-                    Active day is {activeDay}
-                </div>  */}
-            </div>
-        </section>
-    );
+            </section>
+        );
+    }  else {
+        return (
+            <div>Data is unavailable.</div>
+        )
+    }
+    
 
 }
 
